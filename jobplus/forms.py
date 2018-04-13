@@ -30,3 +30,18 @@ class PersonalRegister(Form):    #求职者注册页面内容
 #    def validate_username(self,field):
 #        if User.query.filter_by(username=field.data).first()
 #            raise ValidationError('用户名已经被注册')
+
+class CompanyRegister(Form):
+    companyname = StringField('公司名称',validators=[Required(),Length(1,64)])
+    email = StringField('邮箱',validators=[Required(),Email()])
+    password = PasswordField('密码',validators=[Required(),Length(6,24)])
+    repeat_password = PasswordField('重复密码',validators=[Required(),Length(6,24),EqualTo('password',message = '密码要一致')])
+    submit = SubmitField('注册')
+
+#    def validate_email(self,field):
+#        if Company.query.filter_by(email=field.data).first()
+#            raise ValidationError('邮箱已经被注册')
+#
+#    def validate_companyname(self,field):
+#        if Company.query.filter_by(companyname=field.data).first()
+#            raise ValidationError('公司名称已经被注册')
