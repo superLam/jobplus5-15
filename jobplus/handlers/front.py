@@ -1,43 +1,57 @@
-from flask import render_template,redirect,url_for
+from flask import render_template,redirect,url_for,Blueprint
 from flask_login import login_user,logout_user,login_required
 from flask_wtf import Form
-from jobplus.forms import LoginForm
+from jobplus.forms import LoginForm,RegisterForm
+from jobplus.forms import User,db,Job
 
-@front.route('/login',methods=['GET','POST'])    
+front = Blueprint('front',__name__)
+
+#Home页设计还没完成
+@front.route('/')
+def index():
+    return render_template('index.html')
+
+
+@front.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm
     if form.validate_on_submit():
-        user = User.query.filter_by(email = form.email.data).first()  #数据库表名字User，可以改。这里还缺少判断登录人员的类型。
-        login_user(user,form.remember_me.data)
-        return redirect(url_for('用户简历管理'))
+        user = User.query.filter_by(email = form.email.data).first()
+        if user.is_disable:
+            flash('user had been banned')
+            return redierct(url_for('front.login'))
+        #判断用户角色,在models有定义
+        else:
+            login_user(user,form.remember_me.data)
+            next = 'user.profile'
+            if user.is_admin:
+                next = 'admin.index'
+            elif user.is_company:
+                next = 'company.profile'
+            return redirect(url_for('next'))
     return render_template('login.html',form=form)
 
 @front.route('/logout')
 @login_required    #若没有登录则不能浏览
 def logout():
     logout_user()
-    return redirect(url_for('登出到首页？index'))
+    return redirect(url_for('front.index'))   #登出回到Home页
 
 
 @front.route('/PersonalRegister',methods=['GET','POST'])
 def PersonalRegister():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(email=form.email.data,
-                username=form.username.data,
-                password=form.password.data)
-        db.session.add(user)    #提交到user表
-        db.session.commit()
+        form.create_user()   #create_user()函数包含session.add()
         return redirect(url_for('front.login'))
-    return render_template('PersonalRegister.html',form=f
+    return render_template('PersonalRegister.html',form=form)
             
 @front.route('/CompanyRegister',methods=['GET','POST'])
 def CompanyRegister():
     form = RegistrationForm()
     if form.validate_on_submit():
-        company = Company(email=form.email.data,
-            username=form.username.data,
-            password=form.password.data)    #Company表单信息
+        company = form.create_user()
+        company.role = User.ROLE_COMPANY    #设置成公司用户
         db.session.add(company)    #提交到Company表
         db.session.commit()
         return redirect(url_for('front.login'))
