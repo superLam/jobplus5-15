@@ -4,7 +4,7 @@ from jobplus.forms import UserProfileForm
 
 user = Blueprint('user',__name__,url_prefix='/user')
 
-@user,route('/profile',methods=['GET','POST'])
+@user.route('/profile',methods=['GET','POST'])
 @login_required
 def profile():
     form = UserProfileForm(obj=current_user)

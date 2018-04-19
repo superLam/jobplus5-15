@@ -1,12 +1,13 @@
+# coding:utf-8
 from flask import render_template,redirect,url_for,Blueprint
 from flask_login import login_user,logout_user,login_required
 from flask_wtf import Form
 from jobplus.forms import LoginForm,RegisterForm
-from jobplus.forms import User,db,Job
+from jobplus.forms import User,db
 
 front = Blueprint('front',__name__)
 
-#Home页设计还没完成
+# Home页设计还没完成
 @front.route('/')
 def index():
     return render_template('index.html')
