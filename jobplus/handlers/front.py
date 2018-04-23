@@ -15,7 +15,7 @@ def index():
 
 @front.route('/login',methods=['GET','POST'])
 def login():
-    form = LoginForm
+    form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         if user.is_disable:
@@ -39,22 +39,22 @@ def logout():
     return redirect(url_for('front.index'))   #登出回到Home页
 
 
-@front.route('/PersonalRegister',methods=['GET','POST'])
-def PersonalRegister():
-    form = RegistrationForm()
+@front.route('/personalregister',methods=['GET','POST'])
+def personalregister():
+    form = RegisterForm()
     if form.validate_on_submit():
         form.create_user()   #create_user()函数包含session.add()
         return redirect(url_for('front.login'))
-    return render_template('PersonalRegister.html',form=form)
+    return render_template('personalregister.html',form=form)
             
-@front.route('/CompanyRegister',methods=['GET','POST'])
-def CompanyRegister():
-    form = RegistrationForm()
+@front.route('/companyregister',methods=['GET','POST'])
+def companyregister():
+    form = RegisterForm()
     if form.validate_on_submit():
         company = form.create_user()
         company.role = User.ROLE_COMPANY    #设置成公司用户
         db.session.add(company)    #提交到Company表
         db.session.commit()
         return redirect(url_for('front.login'))
-    return render_template('CompanyRegister.html',form=form)
+    return render_template('companyregister.html',form=form)
 

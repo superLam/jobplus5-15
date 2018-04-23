@@ -24,10 +24,14 @@ class LoginForm(FlaskForm):        #登录页面的内容
 
 
 class RegisterForm(FlaskForm):    #求职者和公司的注册页面内容
-    username = StringField('用户名',validators=[Required(),Length(1,64)])
+    name = StringField('用户名',validators=[Required(),Length(1,64)])
     email = StringField('邮箱',validators=[Required(),Email()])
     password = PasswordField('密码',validators=[Required(),Length(6,24)])
-    repear_password = PasswordField('重复密码',validators=[Required(),Length(6,24),EqualTo('password',message = '密码要一致')])
+    repear_password = PasswordField(
+        '重复密码',
+        validators=[Required(),Length(6,24),
+        EqualTo('password',message = '密码要一致')]
+    )
     submit = SubmitField('注册')
 
 
@@ -40,7 +44,8 @@ class RegisterForm(FlaskForm):    #求职者和公司的注册页面内容
             raise ValidationError('名已经被注册')
 
     def create_user(self):
-        user = User(name=self.name.data,email=self.email.data,password=self.password.data)
+        user = User()
+        self.populate_obj(user)
         db.session.add(user)
         db.session.commit()
         return user
