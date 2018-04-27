@@ -15,18 +15,18 @@ class LoginForm(FlaskForm):        #登录页面的内容
 
     def validate_email(self,field):
         if field.data and not User.query.filter_by(email=field.data).first():
-            raise ValidationError('email has not register')
+            raise ValidationError('邮箱未被注册')
 
     def validate_password(self,field):
         user = User.query.filter_by(email=self.email.data).first()
         if user and not user.check_password(field.data):
-            raise ValidationError('passwrod error')
+            raise ValidationError('密码错误')
 
 
 class RegisterForm(FlaskForm):    #求职者和公司的注册页面内容
-    name = StringField('用户名',validators=[Required(),Length(1,64)])
-    email = StringField('邮箱',validators=[Required(),Email()])
-    password = PasswordField('密码',validators=[Required(),Length(6,24)])
+    name = StringField('用户名',validators=[Required(message='请输入名字'),Length(1,64)])
+    email = StringField('邮箱',validators=[Required(message='请输入邮箱'),Email()])
+    password = PasswordField('密码',validators=[Required(message='密码在6－24字符之内'),Length(6,24)])
     repear_password = PasswordField(
         '重复密码',
         validators=[Required(),Length(6,24),
@@ -41,7 +41,7 @@ class RegisterForm(FlaskForm):    #求职者和公司的注册页面内容
 
     def validate_name(self,field):
         if User.query.filter_by(name=field.data).first():
-            raise ValidationError('名已经被注册')
+            raise ValidationError('名字已经被注册')
 
     def create_user(self):
         user = User()
@@ -51,23 +51,23 @@ class RegisterForm(FlaskForm):    #求职者和公司的注册页面内容
         return user
 
 class UserProfileForm(FlaskForm):
-    real_name = StringField('name',validators=[Required(),Length(1,64)])
-    email = StringField('email',validators=[Required(),Email()])
-    password = PasswordField('password(no write no change)')
-    phone = StringField('phone number',validators=[Required()])
-    work_year = IntegerField('work year')
-    resume_url = FileField('upload resume')
-    submit = SubmitField('submit')
+    real_name = StringField('姓名',validators=[Required(),Length(1,64)])
+    email = StringField('邮箱',validators=[Required(),Email()])
+    password = PasswordField('密码(no write no change)')
+    phone = StringField('手机号',validators=[Required()])
+    work_year = IntegerField('工作年限')
+    resume_url = FileField('上传简历')
+    submit = SubmitField('提交')
 
     def validate_phone(self,field):
         phone = field.data
         if phone[:2] not in ('13','15','18') and len(phone) !=11:
-            raise ValidationError('please enter a correct phone number')
+            raise ValidationError('请输入一个正确手机号')
 
     def upload_resume(self):
         f = self.resume.data
         filename = self.real_name.data + '.pdf'
-        f.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),'static','resume',filename))
+        f.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),'static','resumes',filename))
         return filename
 
     def update_profile(self,user):

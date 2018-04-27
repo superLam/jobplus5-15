@@ -1,7 +1,7 @@
 # coding=utf8
 from flask import Flask
-from .models import db, User
-from .config import configs
+from jobplus.models import db, User
+from jobplus.config import configs
 from .handlers import front, user
 from flask_migrate import Migrate
 from flask_login import LoginManager

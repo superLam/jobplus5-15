@@ -19,7 +19,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         if user.is_disable:
-            flash('user had been banned')
+            flash('用户被禁止')
             return redierct(url_for('front.login'))
         #判断用户角色,在models有定义
         else:
