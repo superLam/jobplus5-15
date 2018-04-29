@@ -1,8 +1,8 @@
-"""upgrade
+"""empty message
 
-Revision ID: 8b5db48f67dd
+Revision ID: a6224d6de94e
 Revises: 
-Create Date: 2018-04-25 14:44:15.037228
+Create Date: 2018-04-29 09:25:19.932619
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8b5db48f67dd'
+revision = 'a6224d6de94e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,11 +25,11 @@ def upgrade():
     sa.Column('real_name', sa.String(length=32), nullable=True),
     sa.Column('name', sa.String(length=32), nullable=False),
     sa.Column('email', sa.String(length=64), nullable=False),
-    sa.Column('password', sa.String(length=256), nullable=False),
+    sa.Column('password', sa.String(length=64), nullable=False),
     sa.Column('role', sa.SmallInteger(), nullable=True),
     sa.Column('phone', sa.String(length=11), nullable=True),
     sa.Column('work_years', sa.SmallInteger(), nullable=True),
-    sa.Column('resume_url', sa.String(length=128), nullable=True),
+    sa.Column('resume_url', sa.String(length=64), nullable=True),
     sa.Column('is_disable', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
@@ -39,15 +39,15 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('logo', sa.String(length=512), nullable=True),
+    sa.Column('logo', sa.String(length=128), nullable=True),
     sa.Column('slug', sa.String(length=64), nullable=True),
-    sa.Column('website', sa.String(length=512), nullable=True),
+    sa.Column('website', sa.String(length=128), nullable=True),
     sa.Column('address', sa.String(length=128), nullable=True),
     sa.Column('finance_stage', sa.String(length=128), nullable=True),
     sa.Column('field', sa.String(length=128), nullable=True),
     sa.Column('position_number', sa.Integer(), nullable=True),
     sa.Column('oneword_profile', sa.String(length=64), nullable=True),
-    sa.Column('detail', sa.String(length=1024), nullable=True),
+    sa.Column('detail', sa.String(length=128), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ondelete='SET NULL'),
     sa.PrimaryKeyConstraint('id'),
@@ -60,14 +60,14 @@ def upgrade():
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('salary', sa.String(length=128), nullable=True),
     sa.Column('tags', sa.String(length=128), nullable=True),
-    sa.Column('experience_requirement', sa.String(length=1024), nullable=False),
+    sa.Column('experience_requirement', sa.String(length=128), nullable=False),
     sa.Column('address', sa.String(length=64), nullable=False),
     sa.Column('is_fulltime', sa.Boolean(), nullable=True),
     sa.Column('degree_requirement', sa.String(length=64), nullable=True),
-    sa.Column('company_msg', sa.String(length=1024), nullable=True),
+    sa.Column('company_msg', sa.String(length=128), nullable=True),
     sa.Column('company_id', sa.Integer(), nullable=True),
-    sa.Column('job_requirement', sa.String(length=1024), nullable=True),
-    sa.Column('job_description', sa.String(length=1024), nullable=True),
+    sa.Column('job_requirement', sa.String(length=128), nullable=True),
+    sa.Column('job_description', sa.String(length=128), nullable=True),
     sa.Column('job_number', sa.Integer(), nullable=True),
     sa.Column('is_online', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['company_id'], ['user.id'], ondelete='CASCADE'),

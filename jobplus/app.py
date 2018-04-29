@@ -6,20 +6,21 @@ from .handlers import front, user
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
+
 def create_app(config):
     app = Flask(__name__)
     app.config.from_object(configs.get(config))
-    register_blueprints(app)
     register_extentions(app)
+    register_blueprints(app)
     return app
 
 
 def register_blueprints(app):
     app.register_blueprint(front)
-    #app.register_blueprint(job)
-    #app.register_blueprint(company)
+    # app.register_blueprint(job)
+    # app.register_blueprint(company)
     app.register_blueprint(user)
-    
+
 
 def register_extentions(app):
     db.init_app(app)
