@@ -31,7 +31,7 @@ class User(Base, UserMixin):
     real_name = db.Column(db.String(32))
     name = db.Column(db.String(32), unique=True, nullable=False)
     email = db.Column(db.String(64), unique=True, nullable=False)
-    _password = db.Column('password', db.String(64), nullable=False)
+    _password = db.Column('password', db.String(256), nullable=False)
     role = db.Column(db.SmallInteger, default=ROLE_USER)
     phone = db.Column(db.String(11))
     work_years = db.Column(db.SmallInteger)
@@ -78,7 +78,7 @@ class Company(Base):
     position_number = db.Column(db.Integer)
     oneword_profile = db.Column(db.String(64))
     # 公司详情
-    detail = db.Column(db.String(128))
+    detail = db.Column(db.String(256))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
     user = db.relationship('User', uselist=False, backref=db.backref('companies', uselist=False))
 

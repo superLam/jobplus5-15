@@ -1,7 +1,7 @@
 import json, os, sys
 from faker import Faker
-sys.path.append('/home/zhi/jobplus5-15/jobplus')
-from models import db, User, Job
+sys.path.append('/home/shiyanlou/jobplus5-15/jobplus')
+from jobplus.models import db, User, Job
 
 f = Faker(locale='zh-cn')
 

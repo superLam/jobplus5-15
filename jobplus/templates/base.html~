@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="http://labfile.oss.aliyuncs.com/courses/923/week7/code/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="static/main.css">
-    </head>
-    <body>
-<nav class="navbar navbar-inverse">
-  <div class="container">
-	<!-- Brand and toggle get grouped for better mobile display -->
-	<div class="navbar-header">
-	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-	</button>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' href="{{ url_for('static', filename='main.css') }}">
+</head>
 	<a class="navbar-brand" href="/">Jobplus</a>
                                                                                       </div>
 	<!-- Collect the nav links, forms, and other content for toggling -->
@@ -28,7 +17,7 @@
             <li><a href="{{ url_for('admin.index') }}">控制台</a><li>
         {% endif %}
         {% if current_user.is_authenticated and current_user.is_company %}
-            <li class="{% if active == 'admin' %}active{% endif %}"><a href="{{ url_for('company.admin_index', company_id=current_user.id) }}">admin<span class="sr-only">(current)</span></a></li>
+            <li class="{% if active == 'admin' %}active{% endif %}"><a href="{{ url_for('company.admin_index', company_id=current_user.id) }}">管理<span class="sr-only">(current)</span></a></li>
         {% endif %}
 	</ul>
 <ul class="nav navbar-nav navbar-right">

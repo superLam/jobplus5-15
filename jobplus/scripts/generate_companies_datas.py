@@ -1,8 +1,8 @@
 import json
 import os, sys
 from faker import Faker
-sys.path.append('/home/zhi/jobplus5-15/jobplus')
-from models import db, User, Company
+sys.path.append('/home/shiyanlou/jobplus5-15/jobplus')
+from jobplus.models import db, User, Company
 
 f = Faker(locale='zh-cn')
 
@@ -15,8 +15,7 @@ def iter_companies():
                     email=f.email(),
                     password=f.password(),
                     role=User.ROLE_COMPANY
-                    
-                    )
+            )
             
 def iter_companies_msg():
     with open(os.path.join(os.path.dirname(__file__),'..','datas','companiesmsg.json')) as ff:
@@ -36,7 +35,7 @@ def iter_companies_msg():
 def run():
     for company in iter_companies():
         db.session.add(company)
-                
+
     for company_msg in iter_companies_msg():
         db.session.add(company_msg)
 
@@ -46,5 +45,3 @@ def run():
     except Exception as e:
         print(e)
         db.session.rollback()
-
-

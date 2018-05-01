@@ -1,3 +1,4 @@
+# coding:utf-8
 from flask import Blueprint, request, render_template, current_app, flash, redirect, url_for
 from jobplus.models import Job, Delivery, db
 from flask_login import login_required, current_user

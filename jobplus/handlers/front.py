@@ -31,17 +31,10 @@ def login():
         else:
             user = User.query.filter_by(name=form.name_email.data).first()
         if user.is_disable:
-            # <<<<<<< HEAD
             flash('用户被禁止')
             return redirect(url_for('front.login'))  # 修正拼写错误
             # 判断用户角色,在models有定义
-            '''
-         =======
-            flash('user had been banned')   # 增加import flash
-            return redirect(url_for('front.login'))
-        # 判断用户角色,在models有定义
->>>>>>> dev
-            '''
+            
         else:
             login_user(user, form.remember_me.data)
             next = 'user.profile'

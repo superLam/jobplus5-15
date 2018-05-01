@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>职位列表</title>
+</head>
+
+
+<body>
+<div class='row'>
+    {% for job in jobs %}
+    <div class='col-sm-6 col-md-4 course'>
+        <div class='thumbnail'>
+           
+            <div class='caption'>
+                <h4 class='job_name'>{{ job.name }}</h4>
+                <p class='job_degree_requirement'>{{ job.degree_requirement }}</p>
+                <p class='experience_requirement'>{{ job.experience_requirement }}</p>
+                <p class='salary'>{{ job.salary }}</p>
+            </div>
+           
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>
+
+{% endblock content %}
