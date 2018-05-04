@@ -19,10 +19,12 @@ class LoginForm(FlaskForm):  # 登录页面的内容
             raise ValidationError('邮箱或者用户名未注册')
 
     def validate_password(self, field):
-        if User.query.filter_by(email=self.name_email.data).first():
+        if User.query.filter_by(email=field.data).first():
             user = User.query.filter_by(email=self.name_email.data).first()
-        else:
+        elif User.query.filter_by(name=field.data).first():
             user = User.query.filter_by(name=self.name_email.data).first()
+        else:
+            user = False
         # 原文件验证的是email，改为password。
             raise ValidationError('密码错误')
 
@@ -59,8 +61,8 @@ class UserProfileForm(FlaskForm):
     email = StringField('邮箱', validators=[Required(), Email()])
     password = PasswordField('密码(no write no change)')
     phone = StringField('手机号', validators=[Required()])
-    work_year = IntegerField('工作年限')
-    resume_url = FileField('上传简历')
+    work_years = IntegerField('工作年限')
+    resume_url = FileField('上传简历',validators=[FileRequired()])
     submit = SubmitField('提交')
 
     def validate_phone(self, field):
@@ -71,7 +73,6 @@ class UserProfileForm(FlaskForm):
 
     def upload_resume(self):
         f = self.resume_url.data
-        print(type(f))
         filename = self.real_name.data + '.pdf'
         f.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'resume', filename))
         return filename
@@ -82,10 +83,11 @@ class UserProfileForm(FlaskForm):
         if self.password.data:
             user.password = self.password.data
         user.phone = self.phone.data
-        user.work_year = self.work_year.data
+        user.work_years = self.work_years.data
         filename = self.upload_resume()
         user.resume_url = url_for('static', filename=os.path.join('resumes', filename))
         db.session.add(user)
+        print(user.work_years)
         db.session.commit()
 
 class CompanyProfileForm(FlaskForm):

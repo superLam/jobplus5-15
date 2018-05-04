@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'macros.html' import render_pagination, render_company, render_job %}
 
 {% block title %}Home{% endblock %}
 {% block head%}
@@ -11,4 +12,35 @@
   </div>
 </div>
 {% endblock %}
-{% block body %} <h1>Home Page</h1>{% endblock %}
+
+{% block body %} 
+
+<div class='list-title'>
+    <li role='persentation' class='active'>最新职位</li>
+</div>
+
+<div class='job-list'>
+    {% for job in newest_jobs %}
+    {{ render_job(job) }}
+    {% endfor %}
+</div>
+
+<p class='list-more'>
+<a href="{{ url_for('job.index') }}">list more</a>
+</p>
+
+<div class='list-title'>
+    <li role='persentation' class='active'>newset companies</li>
+</div>
+
+<div class='company-list'>
+    {% for company in newest_companies %}
+    {{ render_company(company) }}
+    {% endfor %}
+</div>
+
+<p class='list-more'>
+<a href="{{ url_for('company.index') }}">list more</a>
+</p>
+
+{% endblock %}}
