@@ -30,6 +30,7 @@ def login():
             user = User.query.filter_by(email=form.name_email.data).first()
         else:
             user = User.query.filter_by(name=form.name_email.data).first()
+        
         if user.is_disable:
             flash('用户被禁止')
             return redirect(url_for('front.login'))  # 修正拼写错误
