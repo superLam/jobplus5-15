@@ -15,17 +15,22 @@ class LoginForm(FlaskForm):  # 登录页面的内容
     submit = SubmitField('提交')
 
     def validate_name_email(self, field):
-        if field.data and not User.query.filter_by(name=field.data) and not User.query.filter_by(email=field.data):
+        if not User.query.filter_by(name=field.data).first() and not User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱或者用户名未注册')
 
     def validate_password(self, field):
-        if User.query.filter_by(email=field.data).first():
+        '''
+        user = User.query.filter_by(email=self.name_email.data).first()
+        if user and not user.check_password(field.data):
+            raise ValidationError('密码错误')
+        user = User.query.filter_by(name=self.name_email.data).first()
+        if user and not user.check_password(field.data):
+            raise ValidationError('密码错误')
+        '''
+        if User.query.filter_by(email=self.name_email.data).first():
             user = User.query.filter_by(email=self.name_email.data).first()
-        elif User.query.filter_by(name=field.data).first():
-            user = User.query.filter_by(name=self.name_email.data).first()
         else:
-            user = False
-        # 原文件验证的是email，改为password。
+            user = User.query.filter_by(name=self.name_email.data).first()
         if user and not user.check_password(field.data):
             raise ValidationError('密码错误')
 
