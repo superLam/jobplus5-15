@@ -19,21 +19,11 @@ class LoginForm(FlaskForm):  # 登录页面的内容
             raise ValidationError('邮箱或者用户名未注册')
 
     def validate_password(self, field):
-        '''
         user = User.query.filter_by(email=self.name_email.data).first()
-        if user and not user.check_password(field.data):
-            raise ValidationError('密码错误')
-        user = User.query.filter_by(name=self.name_email.data).first()
-        if user and not user.check_password(field.data):
-            raise ValidationError('密码错误')
-        '''
-        if User.query.filter_by(email=self.name_email.data).first():
-            user = User.query.filter_by(email=self.name_email.data).first()
-        else:
+        if not user:
             user = User.query.filter_by(name=self.name_email.data).first()
         if user and not user.check_password(field.data):
             raise ValidationError('密码错误')
-
 
 class RegisterForm(FlaskForm):  # 求职者和公司的注册页面内容
     name = StringField('用户名', validators=[Required(message='请输入名字'), Length(1, 64)])
